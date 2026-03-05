@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You, My Love 💗</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --deep: #112240;
+      --blue: #1a3a5c;
+      --accent: #5b9bd5;
+      --glow: #7ec8e3;
+      --soft: #a8c8e8;
+      --cream: #f0ede8;
+      --white: #ffffff;
+      --gold: #c9a96e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--navy);
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── Stars background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,.5) 0%, transparent 100%),
+        radial-gradient(2px 2px at 80% 80%, rgba(255,255,255,.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 60% 50%, rgba(255,255,255,.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 60%, rgba(255,255,255,.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 48% 90%, rgba(255,255,255,.35) 0%, transparent 100%),
+        radial-gradient(2px 2px at 75% 55%, rgba(255,255,255,.25) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 65%, rgba(255,255,255,.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 50%, rgba(255,255,255,.3) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3rem;
+      background: linear-gradient(to bottom, rgba(13,27,42,.95), transparent);
+      backdrop-filter: blur(6px);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: .06em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--soft);
+      font-size: .78rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      transition: color .3s;
+    }
+
+    .nav-links a:hover { color: var(--glow); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .hero-eyebrow {
+      font-size: .72rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp .8s .3s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 8vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp .9s .5s forwards;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--glow);
+    }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      max-width: 520px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--soft);
+      opacity: 0;
+      animation: fadeUp .9s .75s forwards;
+    }
+
+    .hero-divider {
+      margin: 2.6rem auto 0;
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      opacity: 0;
+      animation: fadeIn 1s 1.1s forwards;
+    }
+
+    /* floating hearts */
+    .hearts-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      font-size: 1rem;
+      opacity: 0;
+      animation: floatHeart linear infinite;
+    }
+
+    @keyframes floatHeart {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10%  { opacity: .4; }
+      90%  { opacity: .15; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 7rem 2rem;
+    }
+
+    .section-label {
+      font-size: .7rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    h2 em { font-style: italic; color: var(--glow); }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.95;
+      color: var(--soft);
+      margin-bottom: 1.3rem;
+    }
+
+    /* ── LOVE REASONS GRID ── */
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      margin-top: 2.8rem;
+    }
+
+    .reason-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(94,168,213,.15);
+      border-radius: 4px;
+      padding: 1.6rem 1.8rem;
+      transition: background .3s, border-color .3s, transform .3s;
+      cursor: default;
+    }
+
+    .reason-card:hover {
+      background: rgba(94,168,213,.08);
+      border-color: rgba(94,168,213,.35);
+      transform: translateY(-4px);
+    }
+
+    .reason-card .icon {
+      font-size: 1.4rem;
+      margin-bottom: .8rem;
+      display: block;
+    }
+
+    .reason-card p {
+      font-size: .92rem;
+      color: var(--cream);
+      margin: 0;
+    }
+
+    /* ── DIVIDER LINE ── */
+    .line-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 3rem;
+      opacity: .6;
+    }
+
+    /* ── LETTER BLOCK ── */
+    .letter-block {
+      background: rgba(255,255,255,.03);
+      border-left: 2px solid var(--gold);
+      padding: 2.6rem 2.8rem;
+      border-radius: 0 4px 4px 0;
+      margin-top: 2rem;
+    }
+
+    .letter-block p { color: var(--cream); font-size: .98rem; }
+
+    /* ── OPEN WHEN CARDS ── */
+    .open-when-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 2.6rem;
+    }
+
+    .ow-card {
+      position: relative;
+      background: var(--deep);
+      border: 1px solid rgba(94,168,213,.2);
+      border-radius: 6px;
+      padding: 2rem 1.6rem 1.6rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .3s, transform .3s;
+    }
+
+    .ow-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--glow));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s;
+    }
+
+    .ow-card:hover::before { transform: scaleX(1); }
+    .ow-card:hover { border-color: rgba(94,168,213,.45); transform: translateY(-5px); }
+
+    .ow-card .ow-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--white);
+      margin-bottom: .9rem;
+    }
+
+    .ow-card p { font-size: .88rem; color: var(--soft); margin: 0; line-height: 1.7; }
+
+    .ow-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* ── GRATITUDE ── */
+    .gratitude-list {
+      margin-top: 2rem;
+      list-style: none;
+    }
+
+    .gratitude-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: .97rem;
+      color: var(--cream);
+      line-height: 1.7;
+    }
+
+    .gratitude-list li .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: .6rem;
+      flex-shrink: 0;
+    }
+
+    /* ── FUTURE SECTION ── */
+    .future-words {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    .future-words span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 300;
+      color: rgba(255,255,255,.18);
+      transition: color .4s;
+    }
+
+    .future-words span:hover { color: var(--white); }
+
+    /* ── FINAL CTA ── */
+    .final-section {
+      text-align: center;
+      padding: 8rem 2rem 10rem;
+    }
+
+    .final-section h2 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+    }
+
+    .final-section p {
+      max-width: 480px;
+      margin: 1.4rem auto 0;
+      font-size: 1.05rem;
+    }
+
+    .heart-btn {
+      display: inline-block;
+      margin-top: 3rem;
+      padding: .9rem 2.8rem;
+      border: 1px solid var(--gold);
+      border-radius: 100px;
+      color: var(--gold);
+      font-family: 'Jost', sans-serif;
+      font-size: .8rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      background: transparent;
+      transition: background .3s, color .3s;
+    }
+
+    .heart-btn:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* ── AMBIENT GLOW ── */
+    .glow-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-1 {
+      width: 500px; height: 500px;
+      background: rgba(91,155,213,.07);
+      top: -100px; right: -100px;
+    }
+
+    .glow-2 {
+      width: 400px; height: 400px;
+      background: rgba(201,169,110,.05);
+      bottom: 10%; left: -80px;
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      font-size: .75rem;
+      letter-spacing: .15em;
+      color: rgba(255,255,255,.2);
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav { padding: 1.2rem 1.4rem; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: .7rem; }
+      .reasons-grid { grid-template-columns: 1fr; }
+      .open-when-grid { grid-template-columns: 1fr; }
+      .letter-block { padding: 1.8rem 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient glows -->
+  <div class="glow-blob glow-1"></div>
+  <div class="glow-blob glow-2"></div>
+
+  <!-- Floating Hearts -->
+  <div class="hearts-container" id="hearts"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">For You❤️</div>
+    <ul class="nav-links">
+      <li><a href="#why">Why I Love You</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#open">Open When</a></li>
+      <li><a href="#future">Our Future</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Out of the entire internet, this page is my favorite — because it’s about you.</p>
+    <h1>Hi Evandi,<br/><em>Loving you feels natural to me..</em></h1>
+    <p class="hero-sub">
+      You are not just someone I Love,<br/>
+      You are someone who makes my heart feel at home
+    </p>
+    <div class="hero-divider"></div>
+  </div>
+
+  <!-- WHY I LOVE YOU -->
+  <section id="why">
+    <div class="reveal">
+      <p class="section-label">Section One</p>
+      <h2>Why I <em>Love You</em></h2>
+      <p>There are many reasons why I love you and honestly, some of them are hard to explain in words. But I'll try.</p>
+    </div>
+    <div class="reasons-grid">
+      <div class="reason-card reveal">
+        <span class="icon">🌙</span>
+        <p>You make me feel like I can be myself without pretending to be someone else.</p>
+      </div>
+      <div class="reason-card reveal">
+        <span class="icon">👂</span>
+        <p>You listen to me, even when I talk about random things or when I'm just overthinking.</p>
+      </div>
+      <div class="reason-card reveal">
+        <span class="icon">🌊</span>
+        <p>Your presence can make a normal moment feel calm and comforting.</p>
+      </div>
+      <div class="reason-card reveal">
+        <span class="icon">🤍</span>
+        <p>You care about me in ways that might seem small, but mean a lot to me.</p>
+      </div>
+      <div class="reason-card reveal">
+        <span class="icon">✨</span>
+        <p>With you, things feel real. Not perfect, not a fairytale but honest and meaningful.</p>
+      </div>
+      <div class="reason-card reveal">
+        <span class="icon">💙</span>
+        <p>My heart feels at peace when I'm with you. That's everything.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section id="story">
+    <div class="line-divider"></div>
+    <div class="reveal">
+      <p class="section-label">Section Two</p>
+      <h2>Our <em>Story</em></h2>
+      <p>Out of billions of people in the world, somehow our lives crossed paths. At first it may have just been conversations and moments shared but slowly it became something more meaningful.</p>
+      <p>We got to know each other, understand each other, and create memories together. Some moments were simple, some were emotional, but all of them became part of our journey.</p>
+      <p>Our story is still being written. And I'm grateful that you are part of it.</p>
+    </div>
+  </section>
+
+  <!-- IF YOU FEEL INSECURE -->
+  <section>
+    <div class="line-divider"></div>
+    <div class="reveal">
+      <p class="section-label">A Reminder</p>
+      <h2>If You Ever Feel <em>Insecure</em></h2>
+      <p>If you're reading this because you're feeling unsure or insecure about us.I have added this part in the website because I want you to know that i will always be your safest place</p>
+      <div class="letter-block reveal">
+        <p>I am here because I want to be here.</p>
+        <p>You don’t have to try so hard to be enough for me.<br/>
+          Just being yourself is already more than enough in my eyes.</p>
+        <p>You already matter to me.</p>
+        <p> I know I am not perfect, and neither is our relationship but my feelings for you are real. when things get difficult, my intention is not to walk away. My intention is to communicate, understand, grow together and work on us.</p>
+        </p>let's make ourselves better for our <b>children!</b>
+        <p style="margin:0;"><strong style="color:var(--white);">Wherever life takes us, I want us to walk through it together..</strong></p>
+        <p style="margin:0;"><strong style="color:var(--white);">No matter what happens, I’m right here with you.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRATITUDE -->
+  <section>
+    <div class="line-divider"></div>
+    <div class="reveal">
+      <p class="section-label">Section Three</p>
+      <h2>Reasons I'm <em>Grateful</em> for You</h2>
+      <p>When I think about you, there are so many things I feel grateful for.</p>
+      <ul class="gratitude-list">
+        <li><span class="dot"></span><span>The way you care about me, even when I don't ask for it.</span></li>
+        <li><span class="dot"></span><span>Your patience with me, especially when my emotions or thoughts get messy.</span></li>
+        <li><span class="dot"></span><span>The way you listen and truly try to understand me.</span></li>
+        <li><span class="dot"></span><span>The comfort you bring sometimes just knowing you're there makes things feel lighter.</span></li>
+        <li><span class="dot"></span><span>The memories we've already made conversations, laughs, and our trips together.</span></li>
+        <li><span class="dot"></span><span>above them what i am most grateful about is you are you. Your personality, thoughts, and heart make you unique.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- OPEN WHEN -->
+  <section id="open">
+    <div class="line-divider"></div>
+    <div class="reveal">
+      <p class="section-label">Section Four</p>
+      <h2><em>Open When…</em></h2>
+      <p>For the moments when you need a little something from me.</p>
+    </div>
+    <div class="open-when-grid">
+      <div class="ow-card reveal">
+        <span class="ow-icon">🌧️</span>
+        <div class="ow-title">Open When You Feel Sad</div>
+        <p>Difficult moments don't define you. You're stronger than you think, and you don't have to face everything alone. I'm still on your side.</p>
+      </div>
+      <div class="ow-card reveal">
+        <span class="ow-icon">💭</span>
+        <div class="ow-title">Open When You Miss Me</div>
+        <p>Just know that you're probably on my mind too. The connection we share doesn't vanish. And we'll create more moments again.</p>
+      </div>
+      <div class="ow-card reveal">
+        <span class="ow-icon">🌊</span>
+        <div class="ow-title">Open When You Doubt Us</div>
+        <p>I'm still here. I'm still choosing you. What we have is real, and it's something worth protecting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUTURE -->
+  <section id="future">
+    <div class="line-divider"></div>
+    <div class="reveal">
+      <p class="section-label">Section Five</p>
+      <h2>Our <em>Future</em></h2>
+      <p>I don't know exactly what the future will look like. Life is unpredictable, and things can change in ways we don't expect. one thing I do know is that I want to continue creating memories with you</p>
+    </div>
+    <div class="future-words reveal">
+      <span>More conversations.</span>
+      <span>More laughter.</span>
+      <span>More moments where we support each other.</span>
+    </div>
+    <p class="reveal">Let’s not worry too much about what will happens tomorrow.Right now, we have this moment, and that’s enough.I just want us to enjoy what we have calmly and peacefully without overthinking!</p>
+  </section>
+
+  <!-- LETTER TO FUTURE SELF -->
+  <section>
+    <div class="line-divider"></div>
+    <div class="reveal">
+      <p class="section-label">A Letter</p>
+      <h2>To Your <em>Future Evandi</em> With Me</h2>
+    </div>
+    <div class="letter-block reveal">
+      <p>Dear future you,</p>
+      
+    <p> If you're reading this someday, I hope you're doing well and feeling proud of how far you've come.</p>
+
+    <p> I hope life has given you moments of growth, peace, and happiness. And I hope you still remember the small memories we shared — our conversations, the laughs, and those quiet moments where just being together felt enough.</p>
+
+    <p>I also hope you kept chasing your dreams and working toward the goals that matter to you. I truly believe in you and in everything you're capable of achieving. Watching you grow and move closer to the life you want is something that would make me really proud.</p>
+
+    <p> And if there are days when things don’t go the way you planned, I hope you remember that losing sometimes is just part of the journey. In those moments, I want you to know that I won’t walk away. I’ll still be there beside you, reminding you of your strength and encouraging you to keep going. </p>
+
+    <p> And when you succeed when all your hard work finally pays off I hope I’m there cheering for you the loudest, celebrating every win and every step forward with you. </p>
+
+    <p> If we’re still walking through life together, I hope we’ve continued learning about each other, supporting each other, and growing together through every stage of life.</p>
+
+    <p>And if life ever gets difficult, I hope we always remember why we chose each other in the first place.</p>
+
+    <p>You deserve happiness, success, and someone who truly values you.</p>
+
+    <p> And right now, in this moment I want you to know that I’m here for you and you are not alone, and I care about you deeply. <em style="color:var(--glow);">I will always be there for you,always.</em></p>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final-section">
+    <div class="reveal">
+      <p class="section-label">Always & Always</p>
+      <h2>You Mean the World <em>to Me</em></h2>
+      <p>If you ever forget how much you mean to me, come back here and read this again. You bring value and warmth into my life — and I don't take that for granted.</p>
+      <p>No matter what kind of day you're having, remember that someone out there truly cares about you and wants to see you happy.</p>
+      <p><strong style="color:var(--white);">And that someone is me. 💙</strong></p>
+      <button class="heart-btn" onclick="burstHearts()">Send Love ♡</button>
+    </div>
+  </section>
+
+  <footer>Made with love, just for you &nbsp;·&nbsp; Always yours 💙</footer>
+
+  <script>
+    /* ── Scroll reveal ── */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    /* ── Floating hearts ── */
+    const container = document.getElementById('hearts');
+    const emojis = ['💙','🩵','✨','💫','🤍','💎'];
+
+    function spawnHeart() {
+      const el = document.createElement('span');
+      el.classList.add('heart');
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = (Math.random() * .8 + .6) + 'rem';
+      const dur = Math.random() * 12 + 10;
+      el.style.animationDuration = dur + 's';
+      el.style.animationDelay = Math.random() * 5 + 's';
+      container.appendChild(el);
+      setTimeout(() => el.remove(), (dur + 5) * 1000);
+    }
+
+    setInterval(spawnHeart, 1800);
+    for (let i = 0; i < 6; i++) spawnHeart();
+
+    /* ── Burst hearts on button click ── */
+    function burstHearts() {
+      for (let i = 0; i < 18; i++) {
+        setTimeout(spawnHeart, i * 80);
+      }
+    }
+  </script>
+</body>
+</html>
